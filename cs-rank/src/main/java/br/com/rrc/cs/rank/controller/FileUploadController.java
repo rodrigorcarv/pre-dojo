@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,18 +16,26 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.rrc.cs.rank.beans.EstatisticaPartida;
+import br.com.rrc.cs.rank.service.FileUploadService;
+
 @RestController
 public class FileUploadController {
 	
+	@Autowired
+	private FileUploadService fileUploadService;
+	
+	
 	private Log log = LogFactory.getLog(FileUploadController.class);
-	private static final String MENSAGEM_UPLOAD_SUCESSO = "Upload realizado com sucesso";
 	private static final String MENSAGEM_UPLOAD_FALHA  = "Falha ao realizar upload";
 	private static final String MENSAGEM_UPLOAD_ARQUIVO_VAZIO =  "Failed to upload, pois a arquivo informado esta vazio";
 	
-	@SuppressWarnings("resource")
+	
 	@RequestMapping(method = RequestMethod.POST, value = "/upload")
-	public @ResponseBody String fileUpload(@RequestParam("file") MultipartFile multipart, RedirectAttributes redirectAttributes) {
+	public @ResponseBody EstatisticaPartida fileUpload(@RequestParam("file") MultipartFile multipart, RedirectAttributes redirectAttributes) {
 
+		EstatisticaPartida estatisticaPartida = null;
+		
 		if (!multipart.isEmpty()) {
 
 			try {
@@ -42,18 +51,17 @@ public class FileUploadController {
 				log.debug(String.format("%s", caminho));
 			        
 				Stream<String> linhas = Files.lines(serverFile.toPath());
-				linhas.forEach(System.out::println);
 				
-				redirectAttributes.addFlashAttribute(MENSAGEM_UPLOAD_SUCESSO);
-				log.debug(MENSAGEM_UPLOAD_SUCESSO);
-			} catch (IOException|RuntimeException e) {
+				estatisticaPartida = fileUploadService.getEstatisticaPartida(linhas);
+				
+			} catch (IOException e) {
 				log.error(String.format("%s%s", MENSAGEM_UPLOAD_FALHA, e.getMessage()), e);
-				redirectAttributes.addFlashAttribute(String.format("%s%s", MENSAGEM_UPLOAD_FALHA, e.getMessage()));
+				throw new RuntimeException(MENSAGEM_UPLOAD_FALHA);
 			}
 		} else {
 			log.error(MENSAGEM_UPLOAD_ARQUIVO_VAZIO);
-			redirectAttributes.addFlashAttribute(MENSAGEM_UPLOAD_ARQUIVO_VAZIO);
+			throw new IllegalArgumentException(MENSAGEM_UPLOAD_ARQUIVO_VAZIO);
 		}
-		return "redirect:/";
+		return estatisticaPartida;
 	}
 }

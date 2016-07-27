@@ -1,4 +1,4 @@
-package br.com.rrc.cs.rank;
+package br.com.rrc.cs.rank.controller;
 
 import static com.jayway.restassured.RestAssured.given;
 
@@ -19,6 +19,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.jayway.restassured.RestAssured;
+
+import br.com.rrc.cs.rank.CsRankApplication;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = CsRankApplication.class)
@@ -44,6 +46,19 @@ public class TestUploadController {
 			multiPart("file", file).
 		expect().
 				statusCode(HttpStatus.SC_OK).
+		when().
+		        post("/upload");
+	}
+	
+	@Test
+	public void uploadFileTestArquivoInvalido() throws IOException, URISyntaxException {
+		
+		File file = null;
+		
+		given().
+			multiPart("file", file).
+		expect().
+				statusCode(HttpStatus.SC_BAD_REQUEST).
 		when().
 		        post("/upload");
 	}
