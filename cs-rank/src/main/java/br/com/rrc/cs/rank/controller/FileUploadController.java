@@ -3,6 +3,7 @@ package br.com.rrc.cs.rank.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.apache.commons.logging.Log;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.com.rrc.cs.rank.beans.EstatisticaPartida;
+import br.com.rrc.cs.rank.beans.Partida;
 import br.com.rrc.cs.rank.service.FileUploadService;
 
 @RestController
@@ -32,10 +33,8 @@ public class FileUploadController {
 	
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/upload")
-	public @ResponseBody EstatisticaPartida fileUpload(@RequestParam("file") MultipartFile multipart, RedirectAttributes redirectAttributes) {
+	public @ResponseBody List<Partida> fileUpload(@RequestParam("file") MultipartFile multipart, RedirectAttributes redirectAttributes) {
 
-		EstatisticaPartida estatisticaPartida = null;
-		
 		if (!multipart.isEmpty()) {
 
 			try {
@@ -52,7 +51,7 @@ public class FileUploadController {
 			        
 				Stream<String> linhas = Files.lines(serverFile.toPath());
 				
-				estatisticaPartida = fileUploadService.getEstatisticaPartida(linhas);
+				return fileUploadService.processarArquivo(linhas);
 				
 			} catch (IOException e) {
 				log.error(String.format("%s%s", MENSAGEM_UPLOAD_FALHA, e.getMessage()), e);
@@ -62,6 +61,5 @@ public class FileUploadController {
 			log.error(MENSAGEM_UPLOAD_ARQUIVO_VAZIO);
 			throw new IllegalArgumentException(MENSAGEM_UPLOAD_ARQUIVO_VAZIO);
 		}
-		return estatisticaPartida;
 	}
 }
