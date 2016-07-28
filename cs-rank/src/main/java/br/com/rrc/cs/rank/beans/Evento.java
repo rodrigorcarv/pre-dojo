@@ -12,11 +12,11 @@ import br.com.rrc.cs.rank.beans.enums.TipoEventoEnum;
 
 public abstract class Evento {
 	
-	protected String linha;
-	protected TipoEventoEnum tipoEventoEnum;
+	protected InformacaoLinha informacaoLinha;
+	private String linha;
+	private TipoEventoEnum tipoEventoEnum;
 
-	public Evento(String linha, TipoEventoEnum tipoEventoEnum) {
-		super();
+	public Evento(String linha, TipoEventoEnum tipoEventoEnum ) {
 		this.linha = linha;
 		this.tipoEventoEnum = tipoEventoEnum;
 	}
@@ -24,12 +24,16 @@ public abstract class Evento {
 	public String getLinha() {
 		return linha;
 	}
+
+	public InformacaoLinha getInformacaoLinha() {
+		return informacaoLinha;
+	}
 	
 	public TipoEventoEnum getTipoEventoEnum() {
 		return tipoEventoEnum;
 	}
 
-	public abstract void analisaEvento(Partida partida);
+	public abstract InformacaoLinha analisaEvento(String linhaEvento);
 	
 	/**
 	 * Obtem o {@link Matcher} com base nos paramentros informados
@@ -46,7 +50,7 @@ public abstract class Evento {
 		final Matcher matcher = pattern.matcher(token);
 		
 		if (!matcher.matches()) {
-			throw new IllegalArgumentException(String.format("Linha %s esta invalida", token));
+			throw new IllegalArgumentException(String.format("InformacaoLinha %s esta invalida", token));
 		}
 		
 		return matcher;

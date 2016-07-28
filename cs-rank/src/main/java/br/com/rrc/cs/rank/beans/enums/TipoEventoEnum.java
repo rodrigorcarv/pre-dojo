@@ -3,6 +3,8 @@ package br.com.rrc.cs.rank.beans.enums;
 import org.apache.commons.lang.StringUtils;
 
 import br.com.rrc.cs.rank.beans.Evento;
+import br.com.rrc.cs.rank.beans.EventoEnd;
+import br.com.rrc.cs.rank.beans.EventoKiller;
 import br.com.rrc.cs.rank.beans.EventoStart;
 
 public enum TipoEventoEnum {
@@ -18,8 +20,7 @@ public enum TipoEventoEnum {
 
 		@Override
 		public Evento criarEvento(String linha) {
-			// TODO Auto-generated method stub
-			return null;
+			return new EventoEnd(linha);
 		}
 
 	},
@@ -27,8 +28,7 @@ public enum TipoEventoEnum {
 
 		@Override
 		public Evento criarEvento(String linha) {
-			// TODO Auto-generated method stub
-			return null;
+			return new EventoKiller(linha);
 		}
 
 	};
@@ -46,14 +46,14 @@ public enum TipoEventoEnum {
 	
 	/**
 	 * Realiza busca do {@link TipoEventoEnum} utilizando o parametro
-	 * linha.
+	 * informacaoLinha.
 	 * 
 	 * Caso o evento informado em forma de {@link String} nao 
 	 * constem na lista de enum seram considerados invalidos.
 	 * 
 	 * Para a instrucao ser valida ela nao pode ser nula, vazia
 	 * 
-	 * @param linha
+	 * @param informacaoLinha
 	 * @return
 	 * @throws IllegalAccessException
 	 */

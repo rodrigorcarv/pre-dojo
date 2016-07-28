@@ -2,7 +2,8 @@ package br.com.rrc.cs.rank.beans;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -16,7 +17,7 @@ public class Partida implements Serializable{
 	private Long numeroPartida; 
 	private LocalDateTime dataInicio;
 	private LocalDateTime dataFim;
-	private List<Jogador> jogadores;
+	private Set<Jogador> jogadores = new HashSet<Jogador>() ;
 	
 	public Partida(Long numeroPartida, LocalDateTime dataInicio) {
 		super();
@@ -24,7 +25,7 @@ public class Partida implements Serializable{
 		this.numeroPartida = numeroPartida;
 	}
 	
-	public Partida(Long numeroPartida, LocalDateTime dataInicio, List<Jogador> jogadores, LocalDateTime dataFim) {
+	public Partida(Long numeroPartida, LocalDateTime dataInicio, Set<Jogador> jogadores, LocalDateTime dataFim) {
 		super();
 		this.dataInicio = dataInicio;
 		this.numeroPartida = numeroPartida;
@@ -40,7 +41,7 @@ public class Partida implements Serializable{
 		return dataInicio;
 	}
 
-	public List<Jogador> getJogadores() {
+	public Set<Jogador> getJogadores() {
 		return jogadores;
 	}
 
@@ -51,9 +52,9 @@ public class Partida implements Serializable{
 	public void setDataFim(LocalDateTime dataFim) {
 		this.dataFim = dataFim;
 	}
-
-	public void setJogadores(List<Jogador> jogadores) {
-		this.jogadores = jogadores;
+	
+	public void adicionaJogar(Jogador jogador) {
+		jogadores.add(jogador);
 	}
 
 	@Override

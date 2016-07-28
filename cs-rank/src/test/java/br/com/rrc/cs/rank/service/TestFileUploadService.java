@@ -3,7 +3,9 @@ package br.com.rrc.cs.rank.service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,7 +45,7 @@ public class TestFileUploadService {
 		Jogador jogadorRoman = new Jogador("Roman");
 		Jogador jogadorWorld = new Jogador("<WORLD>");
 		
-		List<Jogador> jogadores = new ArrayList<>();
+		Set<Jogador> jogadores = new HashSet<>();
 		jogadores.add(jogadorRoman);
 		jogadores.add(jogadorWorld);
 		
