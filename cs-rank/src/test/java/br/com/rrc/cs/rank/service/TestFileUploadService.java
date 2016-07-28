@@ -36,7 +36,7 @@ public class TestFileUploadService {
 		
 		Long numeroPartida = new Long("11348965");
 
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:MM:SS");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 		LocalDateTime dataInicio = LocalDateTime.parse("23/04/2013 15:34:22", formatter);
 		LocalDateTime dataFim = LocalDateTime.parse("23/04/2013 15:39:22", formatter);
 		

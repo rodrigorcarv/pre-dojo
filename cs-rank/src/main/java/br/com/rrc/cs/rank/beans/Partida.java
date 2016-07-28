@@ -18,6 +18,12 @@ public class Partida implements Serializable{
 	private LocalDateTime dataFim;
 	private List<Jogador> jogadores;
 	
+	public Partida(Long numeroPartida, LocalDateTime dataInicio) {
+		super();
+		this.dataInicio = dataInicio;
+		this.numeroPartida = numeroPartida;
+	}
+	
 	public Partida(Long numeroPartida, LocalDateTime dataInicio, List<Jogador> jogadores, LocalDateTime dataFim) {
 		super();
 		this.dataInicio = dataInicio;
@@ -40,6 +46,14 @@ public class Partida implements Serializable{
 
 	public LocalDateTime getDataFim() {
 		return dataFim;
+	}
+
+	public void setDataFim(LocalDateTime dataFim) {
+		this.dataFim = dataFim;
+	}
+
+	public void setJogadores(List<Jogador> jogadores) {
+		this.jogadores = jogadores;
 	}
 
 	@Override
