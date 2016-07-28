@@ -49,31 +49,27 @@ public class FileUploadServiceImpl implements FileUploadService {
 			
 			log.debug(String.format("%s%s", "evento:", evento));
 
-			InformacaoLinha informacaoLinha = evento.analisaEvento(); 
+			InformacaoLinha infLinha = evento.analisaEvento(); 
 			
 			switch (evento.getTipoEventoEnum()) {
 			
-			
 			case START:
-				partida = new Partida(informacaoLinha.getNumeroPartida(), informacaoLinha.getData());
+				partida = new Partida(infLinha.getNumeroPartida(), infLinha.getData());
 				break;
 			
 			case END:
-
-				Matcher matcherEnd = getMatcher(patternEnd, evento.getLinha());
-
-				LocalDateTime dataFinal = LocalDateTime.parse(matcherEnd.group(1), formatter);
-				partida.setDataFim(dataFinal);
+				
+				partida.finalizarPartida(infLinha.getNumeroPartida(), infLinha.getData());
 				partidas.add(partida);
 				break;
 			
 			case KILL:
 
-				Matcher matcherKiller = getMatcher(patternKiller, evento.getLinha());
-				
-				LocalDateTime dataKiller = LocalDateTime.parse(matcherKiller.group(1), formatter);
-				Jogador jogador = new Jogador(matcherKiller.group(2));
-				partida.adicionaJogar(jogador);
+				partida.killer(
+						infLinha.getData(), 
+						new Jogador(infLinha.getJogadorUm()), 
+						new Jogador(infLinha.getJogadorDois()), 
+						infLinha.getNomeArma());
 				break;
 			}
 		}
@@ -83,26 +79,4 @@ public class FileUploadServiceImpl implements FileUploadService {
 		System.out.println("Partidas: " + partidas );
 		return partidas;
 	}
-	
-	/**
-	 * Obtem o {@link Matcher} com base nos paramentros informados
-	 * 
-	 * @param pattern {@link Pattern} 
-	 * @param token texto a ser virificado se atendo o  {@link Pattern} 
-	 * @return Retorna o {@link o Matcher} do token
-	 * 
-	 * @throws IllegalArgumentException Exececao sera disparada caso nao ocorra o {@link Matcher} 
-	 *                                  do token.
-	 */
-	private Matcher getMatcher(Pattern pattern, String token) {
-
-		final Matcher matcher = pattern.matcher(token);
-		
-		if (!matcher.matches()) {
-			throw new IllegalArgumentException(String.format("InformacaoLinha %s esta invalida", token));
-		}
-		
-		return matcher;
-	}
-	
 }
