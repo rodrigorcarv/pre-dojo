@@ -46,16 +46,11 @@ public class FileUploadServiceImpl implements FileUploadService {
 			TipoEventoEnum tipoEvento = TipoEventoEnum.buscaTipoEvento(evento);
 			log.debug(String.format("%s%s", "Tipo de Evento:", tipoEvento));
 			
-			
 			switch (tipoEvento) {
 			
 			case START:
 				
-				Matcher matcherStart = patternStart.matcher(evento);
-				
-				if (!matcherStart.matches()) {
-					throw new IllegalArgumentException(String.format("Linha %s esta invalida", evento));
-				}
+				Matcher matcherStart = getMatcher(patternStart, evento);
 				
 				LocalDateTime dataInicio = LocalDateTime.parse(matcherStart.group(1), formatter);
 				partida = new Partida(new Long(matcherStart.group(2)), dataInicio);
@@ -64,12 +59,8 @@ public class FileUploadServiceImpl implements FileUploadService {
 			
 			case END:
 				
-				Matcher matcherEnd = patternEnd.matcher(evento);
+				Matcher matcherEnd = getMatcher(patternEnd, evento);
 
-				if (!matcherEnd.matches()) {
-					throw new IllegalArgumentException(String.format("Linha %s esta invalida", evento));
-				}
-				
 				LocalDateTime dataFinal = LocalDateTime.parse(matcherEnd.group(1), formatter);
 				partida.setDataFim(dataFinal);
 				partida.setJogadores(jogadores);
@@ -78,11 +69,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 			
 			case KILL:
 
-				Matcher matcherKiller = patternKiller.matcher(evento);
-				
-				if (!matcherKiller.matches()) {
-					throw new IllegalArgumentException(String.format("Linha %s esta invalida", evento));
-				}
+				Matcher matcherKiller = getMatcher(patternKiller, evento);
 				
 				LocalDateTime dataKiller = LocalDateTime.parse(matcherKiller.group(1), formatter);
 				Jogador jogador = new Jogador(matcherKiller.group(2));
@@ -96,4 +83,26 @@ public class FileUploadServiceImpl implements FileUploadService {
 		System.out.println("Partidas: " + partidas );
 		return partidas;
 	}
+	
+	/**
+	 * Obtem o {@link Matcher} com base nos paramentros informados
+	 * 
+	 * @param pattern {@link Pattern} 
+	 * @param token texto a ser virificado se atendo o  {@link Pattern} 
+	 * @return Retorna o {@link o Matcher} do token
+	 * 
+	 * @throws IllegalArgumentException Exececao sera disparada caso nao ocorra o {@link Matcher} 
+	 *                                  do token.
+	 */
+	private Matcher getMatcher(Pattern pattern, String token) {
+
+		final Matcher matcher = pattern.matcher(token);
+		
+		if (!matcher.matches()) {
+			throw new IllegalArgumentException(String.format("Linha %s esta invalida", token));
+		}
+		
+		return matcher;
+	}
+	
 }
