@@ -25,7 +25,7 @@ public class EventoKiller extends Evento {
 		
 		String jogadorUm = matcher.group(2);
 		String jogadorDois = matcher.group(3);
-		String nomeArma = matcher.group(3);
+		String nomeArma = matcher.group(4);
 		
 		return new InformacaoLinha(dataKill, jogadorUm, jogadorDois, nomeArma);
 	}
