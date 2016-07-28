@@ -33,7 +33,7 @@ public abstract class Evento {
 		return tipoEventoEnum;
 	}
 
-	public abstract InformacaoLinha analisaEvento(String linhaEvento);
+	public abstract InformacaoLinha analisaEvento();
 	
 	/**
 	 * Obtem o {@link Matcher} com base nos paramentros informados

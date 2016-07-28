@@ -49,7 +49,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 			
 			log.debug(String.format("%s%s", "evento:", evento));
 
-			InformacaoLinha informacaoLinha = evento.getInformacaoLinha(); 
+			InformacaoLinha informacaoLinha = evento.analisaEvento(); 
 			
 			switch (evento.getTipoEventoEnum()) {
 			

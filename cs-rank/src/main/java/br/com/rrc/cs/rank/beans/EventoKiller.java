@@ -11,14 +11,13 @@ public class EventoKiller extends Evento {
 
 	public EventoKiller(String linha) {
 		super(linha, TipoEventoEnum.KILL);
-		this.informacaoLinha = analisaEvento(linha);
 	}
 
 	@Override
-	public InformacaoLinha analisaEvento(String linha) {
+	public InformacaoLinha analisaEvento() {
 		
 		Pattern pattern = Pattern.compile("([0-9]{2}/[0-9]{2}/[0-9]{4}\\s+[0-9]{2}:[0-9]{2}:[0-9]{2})\\s+\\W+\\s+(\\S*)\\s+killed\\s+(\\S*)\\s+.*\\s+(\\S*)\\s*$");
-		Matcher matcher = getMatcher(pattern, linha);
+		Matcher matcher = getMatcher(pattern, this.getLinha());
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 		LocalDateTime dataKill = LocalDateTime.parse(matcher.group(1), formatter);

@@ -2,8 +2,6 @@ package br.com.rrc.cs.rank.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,9 +13,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import br.com.rrc.cs.rank.CsRankApplication;
 import br.com.rrc.cs.rank.beans.Evento;
-import br.com.rrc.cs.rank.beans.EventoStart;
 import br.com.rrc.cs.rank.beans.InformacaoLinha;
-import br.com.rrc.cs.rank.beans.Jogador;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = CsRankApplication.class)
@@ -85,6 +81,4 @@ public class TesteEventoService {
 		Assert.assertEquals(informacaoLinha, informacaoLinhaEsperado);
 		Assert.assertNull(informacaoLinha.getNumeroPartida());
 	}
-	
-	
 }
