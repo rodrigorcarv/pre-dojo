@@ -29,7 +29,7 @@ public class TesteEventoKiller {
 	@Test(expected=IllegalArgumentException.class)
 	public void testEventoKillerInformandoLinhaInvalida() {
 		
-		String linha = "23/04/2013 15:36:04 - Roman killed Nick us M16";
+		String linha = "23/04/2013 15:36:04 - Roman kil Nick us M16";
 		new EventoKiller(linha).analisaEvento();
 		
 		Assert.fail("Nao foi lancada a excecao IllegalArgumentException");

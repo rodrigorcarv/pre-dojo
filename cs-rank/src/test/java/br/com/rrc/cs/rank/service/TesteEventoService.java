@@ -30,18 +30,14 @@ public class TesteEventoService {
 		Evento evento = eventoService.linha2EventoPartida(linha);
 		
 		Long numeroPartida = new Long("11348965");
-
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 		LocalDateTime dataInicio = LocalDateTime.parse("23/04/2013 15:34:22", formatter);
 		
 		InformacaoLinha informacaoLinhaEsperado = new InformacaoLinha(numeroPartida, dataInicio);
-		InformacaoLinha informacaoLinha = evento.getInformacaoLinha();	
+		InformacaoLinha informacaoLinha = evento.analisaEvento();	
 		
 		Assert.assertEquals(evento.getLinha(), linha);
-		Assert.assertEquals(informacaoLinha, informacaoLinhaEsperado);
-		Assert.assertNull(informacaoLinha.getJogadorUm());
-		Assert.assertNull(informacaoLinha.getJogadorDois());
-		Assert.assertNull(informacaoLinha.getNomeArma());
+		Assert.assertEquals(informacaoLinhaEsperado, informacaoLinha);
 	}
 	
 	@Test
@@ -56,13 +52,10 @@ public class TesteEventoService {
 		LocalDateTime dataFim = LocalDateTime.parse("23/04/2013 15:39:22", formatter);
 		
 		InformacaoLinha informacaoLinhaEsperado = new InformacaoLinha(numeroPartida, dataFim);
-		InformacaoLinha informacaoLinha = evento.getInformacaoLinha();	
+		InformacaoLinha informacaoLinha = evento.analisaEvento();	
 		
 		Assert.assertEquals(evento.getLinha(), linha);
 		Assert.assertEquals(informacaoLinha, informacaoLinhaEsperado);
-		Assert.assertNull(informacaoLinha.getJogadorUm());
-		Assert.assertNull(informacaoLinha.getJogadorDois());
-		Assert.assertNull(informacaoLinha.getNomeArma());
 	}
 	
 	@Test
@@ -75,10 +68,9 @@ public class TesteEventoService {
 		LocalDateTime dataInicio = LocalDateTime.parse("23/04/2013 15:36:04", formatter);
 		
 		InformacaoLinha informacaoLinhaEsperado = new InformacaoLinha(dataInicio, "Roman", "Nick", "M16");
-		InformacaoLinha informacaoLinha = evento.getInformacaoLinha();	
+		InformacaoLinha informacaoLinha = evento.analisaEvento();	
 		
 		Assert.assertEquals(evento.getLinha(), linha);
 		Assert.assertEquals(informacaoLinha, informacaoLinhaEsperado);
-		Assert.assertNull(informacaoLinha.getNumeroPartida());
 	}
 }

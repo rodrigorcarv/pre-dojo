@@ -35,7 +35,7 @@ public class TesteEventoEnd {
 	@Test(expected=IllegalArgumentException.class)
 	public void testEventoEndInformandoLinhaInvalida() {
 		
-		String linha = "23/04/2013 15:39:22 - Match 11348965 has ended";
+		String linha = "23/04/2013 15:39:22 - Match 11348965 has e";
 		new EventoEnd(linha).analisaEvento();
 		
 		Assert.fail("Nao foi lancada a excecao IllegalArgumentException");

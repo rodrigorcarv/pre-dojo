@@ -31,7 +31,7 @@ public class TesteTipoEvento {
 		Assert.assertEquals(TipoEventoEnum.END, TipoEventoEnumEnum);
 	}
 
-	@Test(expected = IllegalAccessException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testBuscaTipoEventoNull() {
 		
 		String linha = null;
@@ -39,7 +39,7 @@ public class TesteTipoEvento {
 		Assert.fail();
 	}
 	
-	@Test(expected = IllegalAccessException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testBuscaTipoEventoVazio() {
 		
 		String linha = "";
@@ -47,7 +47,7 @@ public class TesteTipoEvento {
 		Assert.fail();
 	}
 
-	@Test(expected = IllegalAccessException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testBuscaTipoEventoInvalido() {
 		
 		String linha = "23/04/2013 15:39:22";

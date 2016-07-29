@@ -51,16 +51,16 @@ public class TestUploadController {
 	}
 	
 	@Test
-	public void uploadFileTestArquivoInvalido() throws IOException, URISyntaxException {
+	public void uploadFileTestArquivoVazio() throws IOException, URISyntaxException {
 		
-		File file = null;
+		Path caminho = Paths.get(ClassLoader.getSystemResource("logGameVazio.txt").toURI());
+		File file = caminho.toFile();
 		
 		given().
 			multiPart("file", file).
 		expect().
-				statusCode(HttpStatus.SC_BAD_REQUEST).
+				statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR).
 		when().
 		        post("/upload");
 	}
-
 }

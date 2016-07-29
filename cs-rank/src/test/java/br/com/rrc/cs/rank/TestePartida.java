@@ -2,6 +2,7 @@ package br.com.rrc.cs.rank;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,7 +25,7 @@ public class TestePartida {
 		Partida partida = new Partida(numeroPartida , dataInicio);
 		partida.finalizarPartida(numeroPartida, dataFim);
 		
-		Partida partidaEsperada = new Partida(numeroPartida, dataInicio, null, dataFim);
+		Partida partidaEsperada = new Partida(numeroPartida, dataInicio, new HashMap<>(), dataFim);
 		Assert.assertEquals(partida, partidaEsperada);
 
 	}

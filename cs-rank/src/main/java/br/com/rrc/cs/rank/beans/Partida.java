@@ -143,6 +143,7 @@ public class Partida implements Serializable{
 			vitima.adicionadaMortes();
 			jogadores.put(vitima.getNome(), vitima);			
 		} else {
+			jogador.adicionadaMortes();
 			jogadores.put(vitima.getNome(), jogador);
 		}
 	}

@@ -57,7 +57,7 @@ public class TestFileUploadService {
 		List<Partida> partidas = new ArrayList<>();
 		partidas.add(partida);
 		
-		List<Partida> processarArquivo = fileUploadService.processarArquivo(linhas.stream());
+		List<Partida> processarArquivo = fileUploadService.processarArquivo(linhas);
 		Assert.assertEquals(partidas, processarArquivo);
 		
 	}

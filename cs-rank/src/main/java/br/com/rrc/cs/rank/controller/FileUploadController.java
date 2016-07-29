@@ -1,10 +1,10 @@
 package br.com.rrc.cs.rank.controller;
 
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStreamReader;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,17 +38,10 @@ public class FileUploadController {
 
 			try {
 				
-				String rootPath = System.getProperty("catalina.home");
-				File dir = new File(rootPath + File.separator + "tmpFiles");
-				if (!dir.exists())
-					dir.mkdirs();
-
-				String caminho = String.format("%s%s%s",dir.getAbsolutePath(), File.separator, multipart.getOriginalFilename());
-				
-				File serverFile = new File(caminho);
-				LOG.info("Caminho do Arquivo: ", caminho);
-			        
-				Stream<String> linhas = Files.lines(serverFile.toPath());
+				List<String> linhas = 
+						new BufferedReader(
+								new InputStreamReader(multipart.getInputStream())).lines()
+						   				.parallel().collect(Collectors.toList());
 				
 				return fileUploadService.processarArquivo(linhas);
 				
