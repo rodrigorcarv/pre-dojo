@@ -6,8 +6,6 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,17 +17,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.rrc.cs.rank.beans.Partida;
 import br.com.rrc.cs.rank.service.FileUploadService;
+import br.com.rrc.cs.rank.service.utils.LogUtil;
 
 @RestController
 public class FileUploadController {
 	
-	@Autowired
-	private FileUploadService fileUploadService;
+	private static final LogUtil LOG = LogUtil.getLog(FileUploadController.class);
 	
-	
-	private Log log = LogFactory.getLog(FileUploadController.class);
 	private static final String MENSAGEM_UPLOAD_FALHA  = "Falha ao realizar upload";
 	private static final String MENSAGEM_UPLOAD_ARQUIVO_VAZIO =  "Failed to upload, pois a arquivo informado esta vazio";
+	
+	@Autowired
+	private FileUploadService fileUploadService;
 	
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/upload")
@@ -47,18 +46,18 @@ public class FileUploadController {
 				String caminho = String.format("%s%s%s",dir.getAbsolutePath(), File.separator, multipart.getOriginalFilename());
 				
 				File serverFile = new File(caminho);
-				log.debug(String.format("%s", caminho));
+				LOG.info("Caminho do Arquivo: ", caminho);
 			        
 				Stream<String> linhas = Files.lines(serverFile.toPath());
 				
 				return fileUploadService.processarArquivo(linhas);
 				
 			} catch (IOException e) {
-				log.error(String.format("%s%s", MENSAGEM_UPLOAD_FALHA, e.getMessage()), e);
+				LOG.error(MENSAGEM_UPLOAD_FALHA, e.getMessage(), e);
 				throw new RuntimeException(MENSAGEM_UPLOAD_FALHA);
 			}
 		} else {
-			log.error(MENSAGEM_UPLOAD_ARQUIVO_VAZIO);
+			LOG.error(MENSAGEM_UPLOAD_ARQUIVO_VAZIO);
 			throw new IllegalArgumentException(MENSAGEM_UPLOAD_ARQUIVO_VAZIO);
 		}
 	}

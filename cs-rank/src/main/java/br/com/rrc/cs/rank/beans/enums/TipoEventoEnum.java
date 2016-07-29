@@ -6,6 +6,8 @@ import br.com.rrc.cs.rank.beans.Evento;
 import br.com.rrc.cs.rank.beans.EventoEnd;
 import br.com.rrc.cs.rank.beans.EventoKiller;
 import br.com.rrc.cs.rank.beans.EventoStart;
+import br.com.rrc.cs.rank.service.impl.EventoServiceImpl;
+import br.com.rrc.cs.rank.service.utils.LogUtil;
 
 public enum TipoEventoEnum {
 
@@ -32,6 +34,11 @@ public enum TipoEventoEnum {
 		}
 
 	};
+	
+	private static final String NAO_FOI_ENCONTRADO_UM_TIPO_DE_EVENTO_PARA_A_LINHA_INFORMADA = "Nao foi encontrado um tipo de evento para a linha informada: %s";
+	private static final String A_LINHHA_INFORMADA_ESTA_INVALIDA = "A linhha informada esta invalida: %s";
+
+	private static final LogUtil LOG = LogUtil.getLog(TipoEventoEnum.class);
 
 	private String descricao;
 
@@ -59,8 +66,11 @@ public enum TipoEventoEnum {
 	 */
 	public static TipoEventoEnum buscaTipoEvento (String linha)  {
 		
+		LOG.debug("linha: ", linha);
+		
 		if (StringUtils.isBlank(linha)) {
-			throw new IllegalArgumentException(linha);
+			LOG.error(A_LINHHA_INFORMADA_ESTA_INVALIDA, linha);
+			throw new IllegalArgumentException(String.format(A_LINHHA_INFORMADA_ESTA_INVALIDA, linha));
 		}
 
 		for (TipoEventoEnum tipoEvento : TipoEventoEnum.values()) {
@@ -69,7 +79,8 @@ public enum TipoEventoEnum {
 				return tipoEvento;
 			}
 		}
-		throw new IllegalArgumentException(linha);
+		LOG.error(NAO_FOI_ENCONTRADO_UM_TIPO_DE_EVENTO_PARA_A_LINHA_INFORMADA, linha);
+		throw new IllegalArgumentException(String.format(NAO_FOI_ENCONTRADO_UM_TIPO_DE_EVENTO_PARA_A_LINHA_INFORMADA, linha));
 	}
 	
 	public abstract Evento criarEvento(String linha);

@@ -12,9 +12,12 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import br.com.rrc.cs.rank.exceptions.PartidaInvalidaException;
+import br.com.rrc.cs.rank.service.utils.LogUtil;
 
 public class Partida implements Serializable{
 
+	private static final LogUtil LOG = LogUtil.getLog(Partida.class);
+	
 	private static final String ASSASSINO_BLACK_LIST_WORLD = "<WORLD>";
 	private static final String NAO_FOI_POSSIVEL_INCLUIR_A_VITIMA = "Nao foi possivel incluir a vitima: %s";
 	private static final String NAO_FOI_POSSIVEL_FINALIZAR_A_PARTIDA_POIS_A_MESMA_NAO_FOI_INICIADA = "Não foi possível finalizar a partida %s, pois a mesma não foi iniciada";
@@ -76,9 +79,15 @@ public class Partida implements Serializable{
 	 */
 	public void finalizarPartida(Long numeroPartida, LocalDateTime dataFim) {
 		
+		LOG.debug("Dados de entrada");
+		LOG.debug("numeroPartida: ", numeroPartida);
+		LOG.debug("dataFim: ", dataFim);
+		
 		if (this.numeroPartida.equals(numeroPartida)) {
 			this.dataFim = dataFim;
 		} else {
+			
+			LOG.error(NAO_FOI_POSSIVEL_FINALIZAR_A_PARTIDA_POIS_A_MESMA_NAO_FOI_INICIADA, numeroPartida);
 			throw new PartidaInvalidaException(String.format(NAO_FOI_POSSIVEL_FINALIZAR_A_PARTIDA_POIS_A_MESMA_NAO_FOI_INICIADA, numeroPartida));
 		}
 	}
@@ -110,13 +119,21 @@ public class Partida implements Serializable{
 	 */
 	public void killer(Jogador assassino, Jogador vitima) {
 		
+		LOG.debug("Dados de entrada killer");
+		LOG.debug("assassino: ", assassino);
+		LOG.debug("vitima: ", vitima);
+		
 		adicionaAssassino(assassino);
 		adicionaVitima(vitima);
 	}
 	
 	private void adicionaVitima(Jogador vitima) {
 		
+		LOG.debug("Dados de entrada adicionaVitima");
+		LOG.debug("vitima: ", vitima);
+		
 		if (vitima == null || StringUtils.isBlank(vitima.getNome())) {
+			LOG.error(NAO_FOI_POSSIVEL_INCLUIR_A_VITIMA, vitima);
 			throw new PartidaInvalidaException(String.format(NAO_FOI_POSSIVEL_INCLUIR_A_VITIMA, vitima));
 		}
 		
@@ -132,7 +149,11 @@ public class Partida implements Serializable{
 
 	private void adicionaAssassino(Jogador assassino) {
 		
+		LOG.debug("Dados de entrada adicionaVitima");
+		LOG.debug("assassino: ", assassino);
+		
 		if (assassino == null || StringUtils.isBlank(assassino.getNome())) {
+			LOG.error(NAO_FOI_POSSIVEL_INCLUIR_O_ASSASSINO, assassino);
 			throw new PartidaInvalidaException(String.format(NAO_FOI_POSSIVEL_INCLUIR_O_ASSASSINO, assassino));
 		}
 		

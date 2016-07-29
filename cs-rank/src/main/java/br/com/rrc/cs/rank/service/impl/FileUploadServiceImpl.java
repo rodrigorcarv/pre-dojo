@@ -1,11 +1,7 @@
 package br.com.rrc.cs.rank.service.impl;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,17 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.rrc.cs.rank.beans.Evento;
-import br.com.rrc.cs.rank.beans.Jogador;
 import br.com.rrc.cs.rank.beans.InformacaoLinha;
+import br.com.rrc.cs.rank.beans.Jogador;
 import br.com.rrc.cs.rank.beans.Partida;
 import br.com.rrc.cs.rank.controller.FileUploadController;
 import br.com.rrc.cs.rank.service.EventoService;
 import br.com.rrc.cs.rank.service.FileUploadService;
+import br.com.rrc.cs.rank.service.utils.LogUtil;
 
 @Service
 public class FileUploadServiceImpl implements FileUploadService {
 	
-	private Log log = LogFactory.getLog(FileUploadController.class);
+	private static final LogUtil LOG = LogUtil.getLog(FileUploadServiceImpl.class);
 	
 	@Autowired
 	EventoService eventoService;
@@ -42,7 +39,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 		
 		for (Evento evento : eventos) {
 			
-			log.debug(String.format("%s%s", "evento:", evento));
+			LOG.info("evento:", evento);
 
 			InformacaoLinha infLinha = evento.analisaEvento(); 
 			
@@ -66,9 +63,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 			}
 		}
 		
-		log.debug(partidas);
-
-		System.out.println("Partidas: " + partidas );
+		LOG.debug("Partida:", partida);
 		return partidas;
 	}
 }

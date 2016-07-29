@@ -5,7 +5,7 @@
 	debug="false">
 
 	<appender name="FILE_LOG" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="/home/logs/explore.log" />
+		<param name="File" value="/home/logs/rank.log" />
 		<param name="MaxFileSize" value="1024KB" />
 		<param name="MaxBackupIndex" value="10" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -20,18 +20,12 @@
 		</layout>
 	</appender>
 
-	<logger name="org.springframework" additivity="false">
-		<level value="DEBUG" />
-		<appender-ref ref="FILE_LOG" />
-		<appender-ref ref="CONSOLE_LOG" />
-	</logger>
-
 	<logger name="br.com.rrc" additivity="false">
 		<level value="DEBUG" />
 		<appender-ref ref="FILE_LOG" />
 		<appender-ref ref="CONSOLE_LOG" />
 	</logger>
-	
+
 	<!-- ROOT LOGGER -->
 	<root>
 		<level value="INFO" />
