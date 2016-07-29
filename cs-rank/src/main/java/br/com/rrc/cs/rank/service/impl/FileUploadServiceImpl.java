@@ -40,11 +40,6 @@ public class FileUploadServiceImpl implements FileUploadService {
 		Partida partida = null ;
 		List<Partida> partidas = new ArrayList<>();
 		
-		Pattern patternEnd = Pattern.compile("([0-9]{2}/[0-9]{2}/[0-9]{4}\\s+[0-9]{2}:[0-9]{2}:[0-9]{2})\\s*\\W*\\s*Match\\s+([0-9]+)\\s+has ended\\s*$");
-		Pattern patternKiller = Pattern.compile("([0-9]{2}/[0-9]{2}/[0-9]{4}\\s+[0-9]{2}:[0-9]{2}:[0-9]{2})\\s+\\W+\\s+(\\S*)\\s+killed\\s+(\\S*)\\s+.*\\s+(\\S*)\\s*$");
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-		
 		for (Evento evento : eventos) {
 			
 			log.debug(String.format("%s%s", "evento:", evento));
@@ -65,11 +60,8 @@ public class FileUploadServiceImpl implements FileUploadService {
 			
 			case KILL:
 
-				partida.killer(
-						infLinha.getData(), 
-						new Jogador(infLinha.getJogadorUm()), 
-						new Jogador(infLinha.getJogadorDois()), 
-						infLinha.getNomeArma());
+				partida.killer(new Jogador(infLinha.getJogadorUm()), 
+						new Jogador(infLinha.getJogadorDois()));
 				break;
 			}
 		}

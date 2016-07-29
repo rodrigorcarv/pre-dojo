@@ -3,9 +3,9 @@ package br.com.rrc.cs.rank.service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,11 +43,14 @@ public class TestFileUploadService {
 		LocalDateTime dataFim = LocalDateTime.parse("23/04/2013 15:39:22", formatter);
 		
 		Jogador jogadorRoman = new Jogador("Roman");
-		Jogador jogadorWorld = new Jogador("<WORLD>");
+		jogadorRoman.adicionadaAssassinatos();
+		Jogador jogadorNick = new Jogador("Nick");
+		jogadorNick.adicionadaMortes();
+		jogadorNick.adicionadaMortes();
 		
-		Set<Jogador> jogadores = new HashSet<>();
-		jogadores.add(jogadorRoman);
-		jogadores.add(jogadorWorld);
+		Map<String, Jogador> jogadores = new HashMap<>();
+		jogadores.put("Roman", jogadorRoman);
+		jogadores.put("Nick", jogadorNick);
 		
 		Partida partida = new Partida(numeroPartida, dataInicio, jogadores, dataFim);
 		
