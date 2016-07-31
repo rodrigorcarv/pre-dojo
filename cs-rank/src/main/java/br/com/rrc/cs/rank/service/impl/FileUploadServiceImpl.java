@@ -35,7 +35,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 		
 		List<Partida> partidas = partidaService.extrairPartidas(eventos);
 		
-		LOG.debug("Partidas:", partidas);
+		LOG.debug("Partidas: %s", partidas);
 		return partidas;
 	}
 }

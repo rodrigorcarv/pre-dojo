@@ -24,7 +24,7 @@ public class PartidaServiceImpl implements PartidaService {
 		
 		for (Evento evento : eventos) {
 			
-			LOG.info("evento:", evento);
+			LOG.info("evento: %s", evento);
 
 			InformacaoLinha infLinha = evento.analisaEvento(); 
 			

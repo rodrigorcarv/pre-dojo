@@ -16,14 +16,15 @@ import br.com.rrc.cs.rank.service.utils.LogUtil;
 
 public class Partida implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+
 	private static final LogUtil LOG = LogUtil.getLog(Partida.class);
 	
 	private static final String ASSASSINO_BLACK_LIST_WORLD = "<WORLD>";
-	private static final String NAO_FOI_POSSIVEL_INCLUIR_A_VITIMA = "Nao foi possivel incluir a vitima: %s";
+	private static final String NAO_FOI_POSSIVEL_INCLUIR_A_VITIMA = "Nao foi possivel incluir a vitima: %s, pois a mesma nao esta preenchida corretamente";
 	private static final String NAO_FOI_POSSIVEL_FINALIZAR_A_PARTIDA_POIS_A_MESMA_NAO_FOI_INICIADA = "Não foi possível finalizar a partida %s, pois a mesma não foi iniciada";
 
-	private static final long serialVersionUID = 1L;
-	private static final String NAO_FOI_POSSIVEL_INCLUIR_O_ASSASSINO = null;
+	private static final String NAO_FOI_POSSIVEL_INCLUIR_O_ASSASSINO = "Nao foi possivel incluir o assassino: %s, pois o mesmo nao esta preenchida corretamente";
 	
 	private Long numeroPartida; 
 	private LocalDateTime dataInicio;
@@ -140,10 +141,10 @@ public class Partida implements Serializable{
 		Jogador jogador = jogadores.get(vitima.getNome());
 		
 		if (jogador == null) {
-			vitima.adicionadaMortes();
+			vitima.getEstatisticaJogador().adicionadaMortes();
 			jogadores.put(vitima.getNome(), vitima);			
 		} else {
-			jogador.adicionadaMortes();
+			jogador.getEstatisticaJogador().adicionadaMortes();
 			jogadores.put(vitima.getNome(), jogador);
 		}
 	}
@@ -165,10 +166,10 @@ public class Partida implements Serializable{
 		Jogador jogador = jogadores.get(assassino.getNome());
 		
 		if (jogador == null) {
-			assassino.adicionadaAssassinatos();
+			assassino.getEstatisticaJogador().adicionadaAssassinatos();
 			jogadores.put(assassino.getNome(), assassino);			
 		} else {
-			jogador.adicionadaAssassinatos();
+			jogador.getEstatisticaJogador().adicionadaAssassinatos();
 			jogadores.put(assassino.getNome(), jogador);
 		}
 	}

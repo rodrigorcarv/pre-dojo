@@ -1,23 +1,22 @@
 package br.com.rrc.cs.rank.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-/**
- * @author fernandomacedo
- *
- */
+
 public class Jogador implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
 	private String nome;
-	private int qtdMortes;
-	private int qtdAssinatos;
+	private List<String> bonus = new ArrayList<>(); 
+	private EstatisticaJogador estatisticaJogador = new EstatisticaJogador();
 	
 	public Jogador(String nome) {
 		this.nome = nome;
@@ -26,25 +25,19 @@ public class Jogador implements Serializable {
 	public String getNome() {
 		return nome;
 	}
-
-	public int getQtdMortes() {
-		return qtdMortes;
+	
+	public List<String> getBonus() {
+		return bonus;
 	}
 
-	public int getQtdAssinatos() {
-		return qtdAssinatos;
+	public void setBonus(List<String> bonus) {
+		this.bonus = bonus;
 	}
 
-	public void adicionadaMortes() {
-		qtdMortes++;
+	public EstatisticaJogador getEstatisticaJogador() {
+		return estatisticaJogador;
 	}
-	
-	public void adicionadaAssassinatos() {
-		qtdAssinatos++;
-	}
-	
-	
-	
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);

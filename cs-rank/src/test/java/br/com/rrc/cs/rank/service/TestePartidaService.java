@@ -47,10 +47,10 @@ public class TestePartidaService {
 		LocalDateTime dataFim = LocalDateTime.parse("23/04/2013 15:39:22", formatter);
 		
 		Jogador jogadorRoman = new Jogador("Roman");
-		jogadorRoman.adicionadaAssassinatos();
+		jogadorRoman.getEstatisticaJogador().adicionadaAssassinatos();
 		Jogador jogadorNick = new Jogador("Nick");
-		jogadorNick.adicionadaMortes();
-		jogadorNick.adicionadaMortes();
+		jogadorNick.getEstatisticaJogador().adicionadaMortes();
+		jogadorNick.getEstatisticaJogador().adicionadaMortes();
 		
 		Map<String, Jogador> jogadores = new HashMap<>();
 		jogadores.put("Roman", jogadorRoman);
@@ -99,14 +99,14 @@ public class TestePartidaService {
 		LocalDateTime dataFim = LocalDateTime.parse("23/04/2013 15:39:22", formatter);
 		
 		Jogador jogadorRoman = new Jogador("Roman");
-		jogadorRoman.adicionadaAssassinatos();
+		jogadorRoman.getEstatisticaJogador().adicionadaAssassinatos();
 		
 		Jogador jogadorNick = new Jogador("Nick");
-		jogadorNick.adicionadaMortes();
-		jogadorNick.adicionadaMortes();
+		jogadorNick.getEstatisticaJogador().adicionadaMortes();
+		jogadorNick.getEstatisticaJogador().adicionadaMortes();
 
 		Jogador jogadorWord = new Jogador("<WORLD>");
-		jogadorWord.adicionadaMortes();
+		jogadorWord.getEstatisticaJogador().adicionadaMortes();
 		
 		Map<String, Jogador> jogadores = new HashMap<>();
 		jogadores.put("Roman", jogadorRoman);

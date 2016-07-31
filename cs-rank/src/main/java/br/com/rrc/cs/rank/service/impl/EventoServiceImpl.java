@@ -15,10 +15,10 @@ public class EventoServiceImpl implements EventoService {
 	@Override
 	public Evento linha2EventoPartida(String linha) {
 		
-		LOG.debug("linha do arquivo: ", linha);
+		LOG.debug("linha do arquivo: %s", linha);
 		TipoEventoEnum tipoEvento = TipoEventoEnum.buscaTipoEvento(linha);
 		
-		LOG.debug("tipoEvento: ", tipoEvento);
+		LOG.debug("tipoEvento: %s", tipoEvento);
 		return tipoEvento.criarEvento(linha);
 	}
 
