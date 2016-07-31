@@ -19,6 +19,7 @@ public class Jogador implements Serializable {
 	private EstatisticaJogador estatisticaJogador = new EstatisticaJogador();
 	
 	public Jogador(String nome) {
+		super();
 		this.nome = nome;
 	}
 
@@ -37,6 +38,7 @@ public class Jogador implements Serializable {
 	public EstatisticaJogador getEstatisticaJogador() {
 		return estatisticaJogador;
 	}
+	
 
 	@Override
 	public String toString() {

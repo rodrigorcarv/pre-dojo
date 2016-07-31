@@ -56,7 +56,8 @@ public class TestePartida {
 		Partida partida = new Partida(numeroPartida , dataInicio);
 		Jogador assassino = new Jogador("Roman");
 		Jogador vitima = new Jogador("Nick");
-		partida.killer(assassino, vitima);
+		String arma = "M16";
+		partida.killer(assassino, vitima, arma);
 	}
 	
 	@Test(expected=PartidaInvalidaException.class)
@@ -69,6 +70,7 @@ public class TestePartida {
 		
 		Partida partida = new Partida(numeroPartida , dataInicio);
 		Jogador assassino = new Jogador("Roman");
-		partida.killer(assassino, null);
+		String arma = "M16";
+		partida.killer(assassino, null, arma);
 	}
 }

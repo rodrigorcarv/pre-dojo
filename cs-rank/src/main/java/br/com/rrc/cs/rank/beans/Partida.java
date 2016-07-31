@@ -3,6 +3,7 @@ package br.com.rrc.cs.rank.beans;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -23,13 +24,13 @@ public class Partida implements Serializable{
 	private static final String ASSASSINO_BLACK_LIST_WORLD = "<WORLD>";
 	private static final String NAO_FOI_POSSIVEL_INCLUIR_A_VITIMA = "Nao foi possivel incluir a vitima: %s, pois a mesma nao esta preenchida corretamente";
 	private static final String NAO_FOI_POSSIVEL_FINALIZAR_A_PARTIDA_POIS_A_MESMA_NAO_FOI_INICIADA = "Não foi possível finalizar a partida %s, pois a mesma não foi iniciada";
-
 	private static final String NAO_FOI_POSSIVEL_INCLUIR_O_ASSASSINO = "Nao foi possivel incluir o assassino: %s, pois o mesmo nao esta preenchida corretamente";
 	
 	private Long numeroPartida; 
 	private LocalDateTime dataInicio;
 	private LocalDateTime dataFim;
 	private Map<String, Jogador> jogadores = new HashMap<String, Jogador>() ;
+	private EstatisticaPartida estatisticaPartida = new EstatisticaPartida();
 	
 	public Partida(Long numeroPartida, LocalDateTime dataInicio) {
 		super();
@@ -65,6 +66,14 @@ public class Partida implements Serializable{
 		this.dataFim = dataFim;
 	}
 	
+	public EstatisticaPartida getEstatisticaPartida() {
+		return estatisticaPartida;
+	}
+
+	public void setEstatisticaPartida(EstatisticaPartida estatisticaPartida) {
+		this.estatisticaPartida = estatisticaPartida;
+	}
+
 	/**
 	 * Metodo que visa realizar a finalizacao da partida
 	 * 
@@ -117,21 +126,23 @@ public class Partida implements Serializable{
 	 * 
 	 * @param assassino nome do assassino 
 	 * @param vitima nome da vitima
+	 * @param nomeArma nome da arma
 	 */
-	public void killer(Jogador assassino, Jogador vitima) {
+	public void killer(Jogador assassino, Jogador vitima, String nomeArma) {
 		
 		LOG.debug("Dados de entrada killer");
-		LOG.debug("assassino: ", assassino);
-		LOG.debug("vitima: ", vitima);
+		LOG.debug("assassino: %s", assassino);
+		LOG.debug("vitima: %s", vitima);
+		LOG.debug("nomeArma: %s", nomeArma);
 		
-		adicionaAssassino(assassino);
+		adicionaAssassino(assassino, nomeArma);
 		adicionaVitima(vitima);
 	}
 	
 	private void adicionaVitima(Jogador vitima) {
 		
 		LOG.debug("Dados de entrada adicionaVitima");
-		LOG.debug("vitima: ", vitima);
+		LOG.debug("vitima: %s", vitima);
 		
 		if (vitima == null || StringUtils.isBlank(vitima.getNome())) {
 			LOG.error(NAO_FOI_POSSIVEL_INCLUIR_A_VITIMA, vitima);
@@ -149,10 +160,10 @@ public class Partida implements Serializable{
 		}
 	}
 
-	private void adicionaAssassino(Jogador assassino) {
+	private void adicionaAssassino(Jogador assassino, String nomeArma) {
 		
 		LOG.debug("Dados de entrada adicionaVitima");
-		LOG.debug("assassino: ", assassino);
+		LOG.debug("assassino: %s", assassino);
 		
 		if (assassino == null || StringUtils.isBlank(assassino.getNome())) {
 			LOG.error(NAO_FOI_POSSIVEL_INCLUIR_O_ASSASSINO, assassino);
@@ -166,10 +177,15 @@ public class Partida implements Serializable{
 		Jogador jogador = jogadores.get(assassino.getNome());
 		
 		if (jogador == null) {
-			assassino.getEstatisticaJogador().adicionadaAssassinatos();
+			
+			EstatisticaJogador estatisticaJogador = assassino.getEstatisticaJogador();
+			estatisticaJogador.adicionadaAssassinatos();
+			estatisticaJogador.adicionarArmaUtilizada(nomeArma);
 			jogadores.put(assassino.getNome(), assassino);			
 		} else {
-			jogador.getEstatisticaJogador().adicionadaAssassinatos();
+			EstatisticaJogador estatisticaJogador = jogador.getEstatisticaJogador();
+			estatisticaJogador.adicionadaAssassinatos();
+			estatisticaJogador.adicionarArmaUtilizada(nomeArma);
 			jogadores.put(assassino.getNome(), jogador);
 		}
 	}

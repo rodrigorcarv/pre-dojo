@@ -43,7 +43,7 @@ public class PartidaServiceImpl implements PartidaService {
 			case KILL:
 
 				partida.killer(new Jogador(infLinha.getJogadorUm()), 
-						new Jogador(infLinha.getJogadorDois()));
+						new Jogador(infLinha.getJogadorDois()), infLinha.getNomeArma());
 				break;
 			}
 		}

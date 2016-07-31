@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 import br.com.rrc.cs.rank.beans.enums.TipoEventoEnum;
 
 public class EventoStart extends Evento {
-
+	
 	public EventoStart(String linha) {
 		super(linha, TipoEventoEnum.START); 
 	}
