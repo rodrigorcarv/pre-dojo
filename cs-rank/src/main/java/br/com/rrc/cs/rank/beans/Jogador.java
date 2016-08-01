@@ -18,10 +18,6 @@ public class Jogador implements Serializable {
 	private List<String> listaBonus = new ArrayList<>(); 
 	private EstatisticaJogador estatisticaJogador = new EstatisticaJogador();
 	
-	public Jogador() {
-		super();
-	}
-
 	public Jogador(String nome) {
 		super();
 		this.nome = nome;

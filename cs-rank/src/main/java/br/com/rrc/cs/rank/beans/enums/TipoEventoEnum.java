@@ -6,7 +6,6 @@ import br.com.rrc.cs.rank.beans.Evento;
 import br.com.rrc.cs.rank.beans.EventoEnd;
 import br.com.rrc.cs.rank.beans.EventoKiller;
 import br.com.rrc.cs.rank.beans.EventoStart;
-import br.com.rrc.cs.rank.service.impl.EventoServiceImpl;
 import br.com.rrc.cs.rank.service.utils.LogUtil;
 
 public enum TipoEventoEnum {

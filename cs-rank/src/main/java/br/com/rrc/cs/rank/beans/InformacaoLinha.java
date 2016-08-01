@@ -14,22 +14,7 @@ public class InformacaoLinha {
 	private String jogadorUm;
 	private String jogadorDois;
 	private String nomeArma;
-	
-	
-	
-	public InformacaoLinha() {
-		super();
-	}
 
-	public InformacaoLinha(LocalDateTime data, Long numeroPartida, String jogadorUm, String jogadorDois, String nomeArma) {
-		super();
-		this.data = data;
-		this.numeroPartida = numeroPartida;
-		this.jogadorUm = jogadorUm;
-		this.jogadorDois = jogadorDois;
-		this.nomeArma = nomeArma;
-	}
-	
 	public InformacaoLinha(Long numeroPartida, LocalDateTime data) {
 		super();
 		this.data = data;
@@ -37,6 +22,7 @@ public class InformacaoLinha {
 	}
 
 	public InformacaoLinha(LocalDateTime data, String jogadorUm, String jogadorDois, String nomeArma) {
+		super();
 		this.data = data;
 		this.jogadorUm = jogadorUm;
 		this.jogadorDois = jogadorDois;

@@ -24,10 +24,6 @@ public class EstatisticaJogador {
 	private int maiorSequenciaAssinatosSemMorte;
 	private int qtdAssassinatosSemMorte;
 	
-	public static LogUtil getLog() {
-		return LOG;
-	}
-
 	public String getArmaPredila() {
 		
 		if (armasUtilizadas != null && armasUtilizadas.values().size() > 0) {
