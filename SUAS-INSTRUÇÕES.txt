@@ -1,2 +1,158 @@
-Coloque aqui suas instruções ou comentários que ache útil/relevantes para possamos ler 
-quando estivermos avaliando a sua solução
+##### CS - Rank #####
+
+O projeto trata-se de um sistema de leitura de log e formação de rank de jogadores. 
+O sistema foi desenvolvido com objetivo de estimula a competitividade dos jogadores, provendo estatística para 
+comparação de desempenho dos jogadores.
+
+
+##### Arquitetura ##### 
+
+Para implementação do sistemas de rank criei uma arquitetura simples e eficiente utilizando spring-boot o que minimizar o tempo gasto com a configuração do projeto. E Visando atender melhor aos requisitos do problema proposto a solução não foi realizado utilizando persistência dos dados em banco ou em memória, devido ao curto tempo para desenvolvimento.
+
+
+#### Tecnologias Utilizadas ####
+
+- [Java 8]		- Foram um utlizadas nova biblioteca de Data e Stream para melhor desempenho, segurança e legibilidade do código fonte 
+- [Maven]		- Maven para gerenciar as dependências e automatizar builds.
+- [Spring]		- Framework MVC mais conhecido no mercado.
+- [Spring Boot]	- Framework para desenvolvimento ágil de projetos;
+- [JUnit]		- Ferramenta de testes amplamente utilizada.
+- [Log4J]		- Ferramenta de log utilizada por todos os frameworks
+- [REST Assured]- Framework para realização de testes utilizando chamadas REST
+- [Mokito]      - Mokito utilizado para auxiliar a construção dos teste unitários.  
+
+##### Pré-Requisitos##### 
+
+Java 8
+Maven
+Instalação
+
+##### Instalação ##### 
+
+Para instalação e necessário realizar o download do código-fonte git clone ](Link URL). Após realizar o download do código-fonte acesse a pasta do sistema e execute os comandos abaixo:
+
+mvn clean install
+mvn spring-boot:run
+Cs Rank API REST
+
+
+##### Para Facilitar os teste com serviço Rest ##### 
+
+https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop
+
+
+##### Serviço Disponível ##### 
+
+POST /upload?
+Host: localhost:8080
+Content-Type=multipart/form-data; 
+boundary=MultipartBoundry
+Accept-Encoding=gzip, deflate HTTP/1.1
+
+Cache-Control: no-cache
+
+----WebKitFormBoundaryE19zNvXGzXaLvS5C
+Content-Disposition: form-data; name="file"; filename="logGame.txt"
+Content-Type: text/plain
+
+
+----WebKitFormBoundaryE19zNvXGzXaLvS5C
+
+[
+    {
+        "numeroPartida": 11348965,
+        "dataInicio": {
+            "dayOfYear": 113,
+            "dayOfWeek": "TUESDAY",
+            "month": "APRIL",
+            "dayOfMonth": 23,
+            "year": 2013,
+            "monthValue": 4,
+            "hour": 15,
+            "minute": 34,
+            "second": 22,
+            "nano": 0,
+            "chronology": {
+                "calendarType": "iso8601",
+                "id": "ISO"
+            }
+        },
+        "dataFim": {
+            "dayOfYear": 113,
+            "dayOfWeek": "TUESDAY",
+            "month": "APRIL",
+            "dayOfMonth": 23,
+            "year": 2013,
+            "monthValue": 4,
+            "hour": 15,
+            "minute": 39,
+            "second": 22,
+            "nano": 0,
+            "chronology": {
+                "calendarType": "iso8601",
+                "id": "ISO"
+            }
+        },
+        "jogadores": {
+            "Nick": {
+                "nome": "Nick",
+                "listaBonus": [],
+                "estatisticaJogador": {
+                    "armasUtilizadas": {},
+                    "armaPredila": null,
+                    "qtdMortes": 2,
+                    "qtdAssinatos": 0,
+                    "maiorSequenciaAssinatosSemMorte": 0
+                }
+            },
+            "Roman": {
+                "nome": "Roman",
+                "listaBonus": [
+                    "Jogador venceu a partida sem nenhuma morte"
+                ],
+                "estatisticaJogador": {
+                    "armasUtilizadas": {
+                        "M16": 1
+                    },
+                    "armaPredila": "M16",
+                    "qtdMortes": 0,
+                    "qtdAssinatos": 1,
+                    "maiorSequenciaAssinatosSemMorte": 1
+                }
+            }
+        },
+        "estatisticaPartida": {
+            "duracaoPartida": {
+                "seconds": 300,
+                "zero": false,
+                "negative": false,
+                "units": [
+                    "SECONDS",
+                    "NANOS"
+                ],
+                "nano": 0
+            },
+            "qtdJogores": 0
+        },
+        "vencedor": {
+            "nome": "Roman",
+            "listaBonus": [
+                "Jogador venceu a partida sem nenhuma morte"
+            ],
+            "estatisticaJogador": {
+                "armasUtilizadas": {
+                    "M16": 1
+                },
+                "armaPredila": "M16",
+                "qtdMortes": 0,
+                "qtdAssinatos": 1,
+                "maiorSequenciaAssinatosSemMorte": 1
+            }
+        }
+    }
+]
+
+POSTMAN
+
+Dados das API REST para import:
+{"id":"159c2131-af00-3b21-9e53-c9ee03d247ca","name":"cs-rank","timestamp":1470034794465,"requests":[{"collectionId":"159c2131-af00-3b21-9e53-c9ee03d247ca","id":"92dac4f1-adf4-ad06-2c6f-a14c22e1af0e","name":"upload","description":"","url":"http://localhost:8080/upload?Content-Type=multipart/form-data; boundary=MultipartBoundry&Accept-Encoding=gzip, deflate","method":"POST","headers":"","data":[{"key":"file","value":"","type":"file"}],"dataMode":"params","timestamp":0,"responses":[],"version":2}]}
