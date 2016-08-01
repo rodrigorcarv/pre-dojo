@@ -27,7 +27,8 @@ public class Partida implements Serializable{
 	private static final String NAO_FOI_POSSIVEL_FINALIZAR_A_PARTIDA_POIS_A_MESMA_NAO_FOI_INICIADA = "Não foi possível finalizar a partida %s, pois a mesma não foi iniciada";
 	private static final String NAO_FOI_POSSIVEL_INCLUIR_O_ASSASSINO = "Nao foi possivel incluir o assassino: %s, pois o mesmo nao esta preenchida corretamente";
 	private static final String NAO_FOI_POSSIVEL_PRECISAR_O_VENCENDOR_POIS_LISTA_DE_JOGADORES_ESTA_VAZIA = "Nao foi possivel precisar o vencendor, pois a lista de jogadores esta vazia";
-
+	private static final String NAO_FOI_POSSIVEL_INCLUIR_A_ARMA_UTILIZADA = "Nao foi possivel incluir a arma: %s, pois a mesma nao esta preenchida corretamente";;
+	
 	private Long numeroPartida; 
 	private LocalDateTime dataInicio;
 	private LocalDateTime dataFim;
@@ -181,7 +182,22 @@ public class Partida implements Serializable{
 		LOG.debug("assassino: %s", assassino);
 		LOG.debug("vitima: %s", vitima);
 		LOG.debug("nomeArma: %s", nomeArma);
-
+		
+		if (vitima == null || StringUtils.isBlank(vitima.getNome())) {
+			LOG.error(NAO_FOI_POSSIVEL_INCLUIR_A_VITIMA, vitima);
+			throw new PartidaInvalidaException(String.format(NAO_FOI_POSSIVEL_INCLUIR_A_VITIMA, vitima));
+		}
+		
+		if (assassino == null || StringUtils.isBlank(assassino.getNome())) {
+			LOG.error(NAO_FOI_POSSIVEL_INCLUIR_O_ASSASSINO, assassino);
+			throw new PartidaInvalidaException(String.format(NAO_FOI_POSSIVEL_INCLUIR_O_ASSASSINO, assassino));
+		}
+		
+		if (StringUtils.isBlank(nomeArma)) {
+			LOG.error(NAO_FOI_POSSIVEL_INCLUIR_A_ARMA_UTILIZADA, nomeArma);
+			throw new PartidaInvalidaException(String.format(NAO_FOI_POSSIVEL_INCLUIR_A_ARMA_UTILIZADA, nomeArma));
+		}
+		
 		adicionaAssassino(assassino, nomeArma);
 		adicionaVitima(vitima);
 	}
@@ -190,11 +206,6 @@ public class Partida implements Serializable{
 
 		LOG.debug("Dados de entrada adicionaVitima");
 		LOG.debug("vitima: %s", vitima);
-
-		if (vitima == null || StringUtils.isBlank(vitima.getNome())) {
-			LOG.error(NAO_FOI_POSSIVEL_INCLUIR_A_VITIMA, vitima);
-			throw new PartidaInvalidaException(String.format(NAO_FOI_POSSIVEL_INCLUIR_A_VITIMA, vitima));
-		}
 
 		Jogador jogador = jogadores.get(vitima.getNome());
 
@@ -211,11 +222,6 @@ public class Partida implements Serializable{
 
 		LOG.debug("Dados de entrada adicionaVitima");
 		LOG.debug("assassino: %s", assassino);
-
-		if (assassino == null || StringUtils.isBlank(assassino.getNome())) {
-			LOG.error(NAO_FOI_POSSIVEL_INCLUIR_O_ASSASSINO, assassino);
-			throw new PartidaInvalidaException(String.format(NAO_FOI_POSSIVEL_INCLUIR_O_ASSASSINO, assassino));
-		}
 
 		if(assassino.getNome().equals(ASSASSINO_BLACK_LIST_WORLD)) {
 			return;

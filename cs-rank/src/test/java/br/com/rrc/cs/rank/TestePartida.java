@@ -142,6 +142,140 @@ public class TestePartida {
 		Assert.assertEquals(estatisticaJogadorNick.getQtdMortes(), 1);
 		Assert.assertNull(estatisticaJogadorNick.getArmaPredila());
 	}
+	
+	
+	@Test
+	public void testKillerPartidaAssassinoWorld() {
+
+		Long numeroPartida = new Long("11348965");
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		LocalDateTime dataInicio = LocalDateTime.parse("23/04/2013 15:34:22", formatter);
+
+		Partida partida = new Partida(numeroPartida , dataInicio);
+		Jogador assassino = new Jogador("<WORLD>");
+		Jogador vitima = new Jogador("Nick");
+		String arma = "DROWN";
+		partida.killer(assassino, vitima, arma);
+		
+		Assert.assertNotNull(partida.getJogadores());
+		Assert.assertEquals(partida.getJogadores().size(), 1);
+		
+		Jogador jogadorNick = partida.getJogadores().get("Nick");
+		EstatisticaJogador estatisticaJogadorNick = jogadorNick.getEstatisticaJogador();
+		
+		Assert.assertEquals(estatisticaJogadorNick.getQtdAssinatos(), 0);
+		Assert.assertEquals(estatisticaJogadorNick.getQtdMortes(), 1);
+		Assert.assertNull(estatisticaJogadorNick.getArmaPredila());
+	}
+	
+	@Test(expected=PartidaInvalidaException.class)
+	public void testKillerAssassinoNulo() {
+
+		Long numeroPartida = new Long("11348965");
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		LocalDateTime dataInicio = LocalDateTime.parse("23/04/2013 15:34:22", formatter);
+
+		Partida partida = new Partida(numeroPartida , dataInicio);
+		Jogador vitima = new Jogador("Nick");
+		String arma = "M16";
+		partida.killer(null, vitima, arma);
+		
+	}
+	
+	@Test(expected=PartidaInvalidaException.class)
+	public void testKillerAssassinoInformadoNulo() {
+
+		Long numeroPartida = new Long("11348965");
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		LocalDateTime dataInicio = LocalDateTime.parse("23/04/2013 15:34:22", formatter);
+
+		Partida partida = new Partida(numeroPartida , dataInicio);
+		Jogador assassino = new Jogador("Roman");
+		Jogador vitima = new Jogador(null);
+		String arma = "M16";
+		partida.killer(assassino, vitima, arma);
+	}
+	
+	@Test(expected=PartidaInvalidaException.class)
+	public void testKillerAssassinoNomeInformadoEmBranco() {
+
+		Long numeroPartida = new Long("11348965");
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		LocalDateTime dataInicio = LocalDateTime.parse("23/04/2013 15:34:22", formatter);
+
+		Partida partida = new Partida(numeroPartida , dataInicio);
+		Jogador assassino = new Jogador("");
+		Jogador vitima = new Jogador("Nick");
+		String arma = "M16";
+		partida.killer(assassino, vitima, arma);
+	}
+	
+	@Test(expected=PartidaInvalidaException.class)
+	public void testKillerNomeDaVitimaInformadaNula() {
+
+		Long numeroPartida = new Long("11348965");
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		LocalDateTime dataInicio = LocalDateTime.parse("23/04/2013 15:34:22", formatter);
+
+		Partida partida = new Partida(numeroPartida , dataInicio);
+		Jogador assassino = new Jogador("Nick");
+		Jogador vitima = new Jogador(null);
+		String arma = "M16";
+		partida.killer(assassino, vitima, arma);
+	}
+	
+	@Test(expected=PartidaInvalidaException.class)
+	public void testKillerNomeDaVitimaInformadaEmBranco() {
+
+		Long numeroPartida = new Long("11348965");
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		LocalDateTime dataInicio = LocalDateTime.parse("23/04/2013 15:34:22", formatter);
+
+		Partida partida = new Partida(numeroPartida , dataInicio);
+		Jogador assassino = new Jogador("Roman");
+		Jogador vitima = new Jogador("");
+		String arma = "M16";
+		partida.killer(assassino, vitima, arma);
+		
+	}
+	
+	@Test(expected=PartidaInvalidaException.class)
+	public void testKillerNomeDaArmaInformadaNula() {
+
+		Long numeroPartida = new Long("11348965");
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		LocalDateTime dataInicio = LocalDateTime.parse("23/04/2013 15:34:22", formatter);
+
+		Partida partida = new Partida(numeroPartida , dataInicio);
+		Jogador assassino = new Jogador("Roman");
+		Jogador vitima = new Jogador("Nick");
+		String arma = null;
+		partida.killer(assassino, vitima, arma);
+		
+	}
+	
+	@Test(expected=PartidaInvalidaException.class)
+	public void testKillerNomeDaArmaInformadaEmBranco() {
+
+		Long numeroPartida = new Long("11348965");
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		LocalDateTime dataInicio = LocalDateTime.parse("23/04/2013 15:34:22", formatter);
+
+		Partida partida = new Partida(numeroPartida , dataInicio);
+		Jogador assassino = new Jogador("Roman");
+		Jogador vitima = new Jogador("Nick");
+		String arma = "";
+		partida.killer(assassino, vitima, arma);
+		
+	}
 
 	@Test(expected=PartidaInvalidaException.class)
 	public void testKillerPartidaInvalida() {

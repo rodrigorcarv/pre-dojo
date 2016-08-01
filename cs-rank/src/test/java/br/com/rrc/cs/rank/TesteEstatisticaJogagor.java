@@ -6,6 +6,7 @@ import org.junit.Test;
 import br.com.rrc.cs.rank.beans.EstatisticaJogador;
 import br.com.rrc.cs.rank.beans.EventoEnd;
 import br.com.rrc.cs.rank.beans.Jogador;
+import br.com.rrc.cs.rank.exceptions.PartidaInvalidaException;
 
 public class TesteEstatisticaJogagor {
 
@@ -24,6 +25,27 @@ public class TesteEstatisticaJogagor {
 		estatisticaJogador.getArmaPredila();
 		
 		Assert.assertEquals(estatisticaJogador.getArmaPredila(), "M16");
+	}
+	
+	@Test(expected=PartidaInvalidaException.class)
+	public void testAdicionarArmaUtilizadaNula() {
+
+		Jogador jogadorRoman = new Jogador("Roman");
+		EstatisticaJogador estatisticaJogador = jogadorRoman.getEstatisticaJogador();
+		estatisticaJogador.adicionadaAssassinatos();
+		estatisticaJogador.adicionarArmaUtilizada(null);
+		
+		estatisticaJogador.getArmaPredila();
+	}
+	
+	@Test(expected=PartidaInvalidaException.class)
+	public void testAdicionarArmaUtilizadaVazia() {
+
+		Jogador jogadorRoman = new Jogador("Roman");
+		EstatisticaJogador estatisticaJogador = jogadorRoman.getEstatisticaJogador();
+		estatisticaJogador.adicionarArmaUtilizada("");
+		
+		estatisticaJogador.getArmaPredila();
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
