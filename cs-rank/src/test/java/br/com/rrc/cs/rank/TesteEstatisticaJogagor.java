@@ -1,33 +1,29 @@
 package br.com.rrc.cs.rank;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import org.junit.Assert;
 import org.junit.Test;
 
+import br.com.rrc.cs.rank.beans.EstatisticaJogador;
 import br.com.rrc.cs.rank.beans.EventoEnd;
-import br.com.rrc.cs.rank.beans.InformacaoLinha;
+import br.com.rrc.cs.rank.beans.Jogador;
 
 public class TesteEstatisticaJogagor {
 
 	@Test
 	public void testAdicionarArmaUtilizadaComSucesso() {
-		
-		String linha = "23/04/2013 15:39:22 - Match 11348965 has ended";
-		InformacaoLinha informacaoLinha = new EventoEnd(linha).analisaEvento();
-		
-		Long numeroPartida = new Long("11348965");
 
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-		LocalDateTime dataFim = LocalDateTime.parse("23/04/2013 15:39:22", formatter);
+		Jogador jogadorRoman = new Jogador("Roman");
+		EstatisticaJogador estatisticaJogador = jogadorRoman.getEstatisticaJogador();
+		estatisticaJogador.adicionadaAssassinatos();
+		estatisticaJogador.adicionarArmaUtilizada("M16");
+		estatisticaJogador.adicionadaAssassinatos();
+		estatisticaJogador.adicionarArmaUtilizada("M16");
+		estatisticaJogador.adicionadaAssassinatos();
+		estatisticaJogador.adicionarArmaUtilizada("AK47");
 		
-		InformacaoLinha informacaoLinhaEsperado = new InformacaoLinha(numeroPartida, dataFim);
+		estatisticaJogador.getArmaPredila();
 		
-		Assert.assertEquals(informacaoLinha, informacaoLinhaEsperado);
-		Assert.assertNull(informacaoLinha.getJogadorUm());
-		Assert.assertNull(informacaoLinha.getJogadorDois());
-		Assert.assertNull(informacaoLinha.getNomeArma());
+		Assert.assertEquals(estatisticaJogador.getArmaPredila(), "M16");
 	}
 	
 	@Test(expected=IllegalArgumentException.class)

@@ -3,7 +3,6 @@ package br.com.rrc.cs.rank.beans;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -25,13 +24,19 @@ public class Partida implements Serializable{
 	private static final String NAO_FOI_POSSIVEL_INCLUIR_A_VITIMA = "Nao foi possivel incluir a vitima: %s, pois a mesma nao esta preenchida corretamente";
 	private static final String NAO_FOI_POSSIVEL_FINALIZAR_A_PARTIDA_POIS_A_MESMA_NAO_FOI_INICIADA = "Não foi possível finalizar a partida %s, pois a mesma não foi iniciada";
 	private static final String NAO_FOI_POSSIVEL_INCLUIR_O_ASSASSINO = "Nao foi possivel incluir o assassino: %s, pois o mesmo nao esta preenchida corretamente";
-	
+	private static final String NAO_FOI_POSSIVEL_PRECISAR_O_VENCENDOR_POIS_LISTA_DE_JOGADORES_ESTA_NULA_OU_VAZIA = "Nao foi possivel precisar o vencendor, pois a lista de jogadores esta nula ou vazia";
+
 	private Long numeroPartida; 
 	private LocalDateTime dataInicio;
 	private LocalDateTime dataFim;
 	private Map<String, Jogador> jogadores = new HashMap<String, Jogador>() ;
 	private EstatisticaPartida estatisticaPartida = new EstatisticaPartida();
-	
+	private Jogador vencedor;
+
+	public Partida() {
+		super();
+	}
+
 	public Partida(Long numeroPartida, LocalDateTime dataInicio) {
 		super();
 		this.dataInicio = dataInicio;
@@ -70,8 +75,29 @@ public class Partida implements Serializable{
 		return estatisticaPartida;
 	}
 
-	public void setEstatisticaPartida(EstatisticaPartida estatisticaPartida) {
-		this.estatisticaPartida = estatisticaPartida;
+	public Jogador getVencedor() {
+		return vencedor;
+	}
+
+	public void setVencedor(Jogador vencedor) {
+		this.vencedor = vencedor;
+	}
+
+	public void analisaVencedor() {
+		
+		if (jogadores == null || jogadores.size() <= 0) {
+			LOG.error(NAO_FOI_POSSIVEL_PRECISAR_O_VENCENDOR_POIS_LISTA_DE_JOGADORES_ESTA_NULA_OU_VAZIA);
+			throw new IllegalArgumentException(NAO_FOI_POSSIVEL_PRECISAR_O_VENCENDOR_POIS_LISTA_DE_JOGADORES_ESTA_NULA_OU_VAZIA);
+		}
+
+		Jogador jogador = jogadores.values()
+				.stream()
+				.max((s1, s2) -> 
+				Integer.compare(s1.getEstatisticaJogador().getQtdAssinatos(), 
+						s2.getEstatisticaJogador().getQtdAssinatos()))
+				.orElse(null);
+
+		vencedor = jogador;
 	}
 
 	/**
@@ -100,7 +126,20 @@ public class Partida implements Serializable{
 			LOG.error(NAO_FOI_POSSIVEL_FINALIZAR_A_PARTIDA_POIS_A_MESMA_NAO_FOI_INICIADA, numeroPartida);
 			throw new PartidaInvalidaException(String.format(NAO_FOI_POSSIVEL_FINALIZAR_A_PARTIDA_POIS_A_MESMA_NAO_FOI_INICIADA, numeroPartida));
 		}
+		
+		estatisticaPartida.calculaDuracaoPartida(this.dataInicio, dataFim);
+		analisaVencedor();
+		
+		if (vencedor != null) {
+			
+			EstatisticaJogador estatisticaJogador = this.vencedor.getEstatisticaJogador();
+			
+			if (estatisticaJogador.getQtdMortes() == 0) {
+				this.vencedor.adicionaBonus("Jogador venceu a partida sem nenhuma morte");
+			}
+		}
 	}
+	
 
 	@Override
 	public String toString() {

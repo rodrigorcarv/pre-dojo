@@ -15,9 +15,13 @@ public class Jogador implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String nome;
-	private List<String> bonus = new ArrayList<>(); 
+	private List<String> listaBonus = new ArrayList<>(); 
 	private EstatisticaJogador estatisticaJogador = new EstatisticaJogador();
 	
+	public Jogador() {
+		super();
+	}
+
 	public Jogador(String nome) {
 		super();
 		this.nome = nome;
@@ -27,19 +31,18 @@ public class Jogador implements Serializable {
 		return nome;
 	}
 	
-	public List<String> getBonus() {
-		return bonus;
-	}
-
-	public void setBonus(List<String> bonus) {
-		this.bonus = bonus;
+	public List<String> getListaBonus() {
+		return listaBonus;
 	}
 
 	public EstatisticaJogador getEstatisticaJogador() {
 		return estatisticaJogador;
 	}
 	
-
+	public void adicionaBonus(String bonus) {
+		listaBonus.add(bonus);
+	}
+	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);

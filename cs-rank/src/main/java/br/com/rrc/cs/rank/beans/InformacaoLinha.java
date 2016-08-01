@@ -15,6 +15,12 @@ public class InformacaoLinha {
 	private String jogadorDois;
 	private String nomeArma;
 	
+	
+	
+	public InformacaoLinha() {
+		super();
+	}
+
 	public InformacaoLinha(LocalDateTime data, Long numeroPartida, String jogadorUm, String jogadorDois, String nomeArma) {
 		super();
 		this.data = data;

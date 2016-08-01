@@ -2,6 +2,7 @@ package br.com.rrc.cs.rank.beans;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -17,11 +18,32 @@ public class EstatisticaJogador {
 	private static final String NAO_FOI_POSSIVEL_INCLUIR_A_ARMA_UTILIZADA = "Nao foi possivel incluir a arma: %s, pois a mesma nao esta preenchida corretamente";;
 	
 	private Map<String, Integer> armasUtilizadas = new HashMap<>();
+	private String armaPredila;
 	private int qtdMortes;
 	private int qtdAssinatos;
 	private int maiorSequenciaAssinatosSemMorte;
 	private int qtdAssassinatosSemMorte;
 	
+	public static LogUtil getLog() {
+		return LOG;
+	}
+
+	public String getArmaPredila() {
+		
+		if (armasUtilizadas != null && armasUtilizadas.values().size() > 0) {
+			
+			Entry<String, Integer> arma = armasUtilizadas
+					.entrySet()
+					.stream()
+					.max((s1, s2) ->  s1.getValue().compareTo(s2.getValue()))
+					.orElse(null);
+			arma.getKey();
+			armaPredila = arma.getKey();
+		}
+		
+		return armaPredila;
+	}
+
 	public int getQtdMortes() {
 		return qtdMortes;
 	}
@@ -72,7 +94,7 @@ public class EstatisticaJogador {
 	
 	public void incrementaSequenciaAssinatosSemMorte() {
 		
-		if (qtdAssassinatosSemMorte > maiorSequenciaAssinatosSemMorte) {
+		if (qtdAssassinatosSemMorte >= maiorSequenciaAssinatosSemMorte) {
 			maiorSequenciaAssinatosSemMorte++;
 		} 
 		
